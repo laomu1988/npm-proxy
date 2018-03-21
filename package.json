@@ -1,6 +1,6 @@
 {
   "name": "@laomu/npm-proxy",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "简单的npm包缓存服务器，不使用数据库，直接用本地文件",
   "main": "index.js",
   "scripts": {
