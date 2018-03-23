@@ -1,9 +1,9 @@
 // 请求文件并将文件体放入res.body中
-const request = require('request');
+const request = require('request')
 module.exports = function(options = {}) {
     return function(req, res, next) {
         if (req.headers.__from === 'proxy') {
-            return next();
+            return next()
         }
         let reqOptions = {
             url:  'http://' + options.host + req.url,
@@ -16,15 +16,14 @@ module.exports = function(options = {}) {
         }
         request(reqOptions, function(err, response, body) {
             if (err) {
-                res.err = err;
-                console.error(err);
-                return next();
+                res.err = err
+                console.error(err)
+                return next()
             }
-            let headers = response.headers
             res.response = response
-            res.headers = response.headers
+            res.headers = response.headers  || {}
             res.body = body
-            next();
+            next()
         })
     }
 }
