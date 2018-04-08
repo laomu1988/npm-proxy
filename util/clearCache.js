@@ -24,9 +24,9 @@ module.exports = function(config) {
 function clearFile(config) {
     console.log('clear cache...')
     let paths = [
-        path.join(config.saveTo, '/proxy-projects'),
-        path.join(config.saveTo, '/tgz'),
-        path.join(config.saveTo, '/upload')
+        path.join(config.saveTo, '/proxy-projects/*'),
+        path.join(config.saveTo, '/tgz/*'),
+        path.join(config.saveTo, '/upload/*')
     ]
     let index = 0
     clear()
@@ -43,6 +43,7 @@ function clearFile(config) {
             if (err) {
                 console.error('clearFileError', err)
             }
+
             index += 1
             setTimeout(clear, 1000)
         })
