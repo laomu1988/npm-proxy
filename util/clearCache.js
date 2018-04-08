@@ -23,18 +23,28 @@ module.exports = function(config) {
 
 function clearFile(config) {
     console.log('clear cache...')
-    rimraf(path.join(config.saveTo, '/proxy-projects'), function(err) {
-        if (err) {
-            console.error('clearFileError', err)
-        }
-        rimraf(path.join(config.saveTo, '/tgz'), function(err) {
-            if (err) {
-                console.error('clearFileError', err)
-            }
-            fs.writeFileSync(path.join(config.saveTo, 'cleartime.txt'), Date.now())
+    let paths = [
+        path.join(config.saveTo, '/proxy-projects'),
+        path.join(config.saveTo, '/tgz'),
+        path.join(config.saveTo, '/upload')
+    ]
+    let index = 0
+    clear()
+
+    function clear() {
+        if (index >= paths.length) {
+            // 下次启动清理时间
             setTimeout(function() {
                 clearFile(config)
             }, config.timeout * 1000)
+            return
+        }
+        rimraf(paths[index], function(err) {
+            if (err) {
+                console.error('clearFileError', err)
+            }
+            index += 1
+            setTimeout(clear, 1000)
         })
-    })
+    }
 }

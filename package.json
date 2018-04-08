@@ -1,6 +1,6 @@
 {
   "name": "@laomu/npm-proxy",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "description": "简单的npm包缓存服务器，不使用数据库，直接用本地文件",
   "main": "index.js",
   "scripts": {
@@ -13,7 +13,9 @@
   "author": "laomu1988@qq.com",
   "license": "MIT",
   "dependencies": {
+    "express": "^4.16.3",
     "mkdirp": "^0.5.1",
+    "multer": "^1.3.0",
     "request": "^2.85.0",
     "rimraf": "^2.6.2"
   }
