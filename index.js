@@ -28,6 +28,11 @@ module.exports = function(options) {
     app.use(express.static(config.saveTo + '/proxy-projects'))
     app.use(express.static(config.saveTo + '/tgz'))
 
+    app.get('/@clear/cache', function(req, res) {
+        clearCache(config, true)
+        res.send('clear cache finished...')
+    })
+
     if (config.upload) {
         mkdirp(config.saveTo + '/upload')
         app.use('/upload', express.static(config.saveTo + '/upload'))

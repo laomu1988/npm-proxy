@@ -5,7 +5,7 @@ const fs = require('fs')
 const path = require('path')
 const rimraf = require('rimraf')
 
-module.exports = function(config) {
+module.exports = function(config, rightNow) {
     if (config.timeout > 0) {
         let last = Date.now()
         let timefile = path.join(config.saveTo, '/cleartime.txt')
@@ -16,12 +16,15 @@ module.exports = function(config) {
             config.timeout = 60
         }
         setTimeout(function() {
-            clearFile(config)
+            clearFile(config, true)
         }, (config.timeout + Date.now() - last) * 1000)
+    }
+    if (rightNow) {
+        clearFile(config, false)
     }
 }
 
-function clearFile(config) {
+function clearFile(config, useInterval) {
     console.log('clear cache...')
     let paths = [
         path.join(config.saveTo, '/proxy-projects/*'),
@@ -34,9 +37,11 @@ function clearFile(config) {
     function clear() {
         if (index >= paths.length) {
             // 下次启动清理时间
-            setTimeout(function() {
-                clearFile(config)
-            }, config.timeout * 1000)
+            if (useInterval) {
+                setTimeout(function() {
+                    clearFile(config)
+                }, config.timeout * 1000)
+            }
             return
         }
         rimraf(paths[index], function(err) {
